@@ -10,7 +10,7 @@ public class Artista extends Persona {
 	private String apodo;
 	private Set<Especialidad> especialidades = new HashSet<Especialidad>();
 	private List<Numero> numeros;
- /*hay que tener en cuenta que hay que transformar un conjunto en una lista no habra elementos repetidos
+	/*hay que tener en cuenta que hay que transformar un conjunto en una 	lista no habra elementos repetidos
   *mejor trabajar con conjuntos*/
 	public Artista() {
 		super();
