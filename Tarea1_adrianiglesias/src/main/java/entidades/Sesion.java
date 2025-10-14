@@ -1,0 +1,61 @@
+package entidades;
+
+/*Es una solucion para mantener la sesion iniciada. Este objeto sesion
+ * va a tener los datos de la persona que inicia el programa.
+ * 
+*/
+
+public class Sesion {
+
+	private String nombre;
+	private Perfil perfil;
+	
+	public Sesion() {
+		super();
+	}
+
+	public Sesion(String nombre, Perfil perfil) {
+		super();
+		this.nombre = nombre;
+		this.perfil = perfil;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+	
+	  public void iniciarSesion(String usuario, Perfil perfil)/*esto seria el login para Luis?*/ {
+	        this.nombre = usuario;
+	        this.perfil = perfil;
+	    }
+
+	    public void cerrarSesion() {
+	        this.nombre = null;
+	        this.perfil = Perfil.INVITADO;
+	    }
+
+	    public boolean isAutenticado() {
+	        return perfil != Perfil.INVITADO;
+	    }
+
+	    public Perfil getPerfilActual() {
+	        return perfil;
+	    }
+
+	    public String getUsuarioActual() {
+	        return nombre;
+	    }
+	
+}
