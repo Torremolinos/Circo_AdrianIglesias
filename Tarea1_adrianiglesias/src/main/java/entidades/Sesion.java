@@ -35,8 +35,8 @@ public class Sesion {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	
-	  public void iniciarSesion(String usuario, Perfil perfil)/*esto seria el login para Luis?*/ {
+	/*esto seria el login para Luis?*/
+	  public void iniciarSesion(String usuario, Perfil perfil) {
 	        this.nombre = usuario;
 	        this.perfil = perfil;
 	    }
