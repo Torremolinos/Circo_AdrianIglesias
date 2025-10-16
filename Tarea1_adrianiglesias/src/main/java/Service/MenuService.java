@@ -22,14 +22,11 @@ public class MenuService {
 			System.out.println("Este menu es para invitados");
 		}
 
-		/*
-		 * estoy pensando en meter los mensajes en ArrayList... pero no estoy
-		 * seguro cuanto de bueno es y que escalable puede ser...
-		 */
 		do {
 			System.out.println("Te damos la bienvenida a nuestro Circo");
-			System.out.println("Bienvenido "+ Perfil.INVITADO);
-			System.out.println("Tienes que elegir una de las opciones para continuar : ");
+			System.out.println("Bienvenido " + Perfil.INVITADO);
+			System.out.println(
+							"Tienes que elegir una de las opciones para continuar : ");
 			System.out.println("1.Iniciar sesión");
 			System.out.println("2.Ver espectaculos");
 			System.out.println("3.Salir");
@@ -59,19 +56,22 @@ public class MenuService {
 
 	}
 
-	private void menuAdmin() {
-		/* P */
+	private void menuAdmin(Perfil perfil) {
+
 		/* Aqui pasamos perfil? y lo comparo con admin de mis propiedades? */
 		boolean comprobador = false;
 		Scanner usuario = new Scanner(System.in);
 		int eleccion = 0;
+		comprobadorPerfil(perfil);
 		do {
-			System.out.println("Bienvenido "+ Perfil.ADMIN);
-			System.out.println("Tienes que elegir una de las opciones para continuar : ");
+			System.out.println("Bienvenido " + Perfil.ADMIN);
+			System.out.println(
+							"Tienes que elegir una de las opciones para continuar : ");
 			System.out.println("1.Ver espectáculo");
 			System.out.println("2.Registrar Usuarios");
 			System.out.println("3.Asignar perfil y credenciales");
-			System.out.println("4.Gestionar datos de Artistas y de Coordinacion");
+			System.out.println(
+							"4.Gestionar datos de Artistas y de Coordinacion");
 			System.out.println("5.Ver datos de espectáculo completo");
 			System.out.println("6.Ver ficha");
 			System.out.println("7.Log out");
@@ -81,58 +81,75 @@ public class MenuService {
 
 			switch (eleccion) {
 			case 1:
-			
+
 				/*
 				 * le registro con un metodo en... login? necesito una clase
 				 * login? en sesion??? como abstraigo esto?
 				 */
 				break;
-			
+
 			case 2:
 
 				break;
-				
 
 			case 3:
 				System.out.println("En construcción aún no disponible");
 				break;
-			
+
 			case 4:
 				System.out.println("En construcción aún no disponible");
 				break;
-			
 
 			case 5:
 				System.out.println("En construcción aún no disponible");
 				break;
-			
-			
+
 			case 6:
 				System.out.println("En construcción aún no disponible");
 				break;
-			
 
 			case 7:
 				System.out.println("En construcción aún no disponible");
 				break;
-			
 
 			case 8:
 				System.out.println("En construcción aún no disponible");
 				break;
-			
-			
+
 			default:
 
 				break;
 			}
-		}while (comprobador);
+		} while (comprobador);
 	}
 
-	private void menuUsuario() {
+	private void menuCoordinador(Perfil perfil) {
+		comprobadorPerfil(perfil);
+		
+		
+		}
 
-		/*
-		 * menu usuario? Coordinador? Artista? quizas un switch como hace Luis
-		 * Para cada menu? entonces deberia hacer 2?
-		 */ }
+	public boolean comprobadorPerfil(Perfil perfil) {
+		
+		switch (perfil) {
+		case INVITADO:
+
+			break;
+
+		case ADMIN:
+
+			break;
+		case ARTISTA:
+
+			break;
+		case COORDINACION:
+
+			break;
+		default:
+			break;
+		}
+	
+
+		return true;
+	}
 }

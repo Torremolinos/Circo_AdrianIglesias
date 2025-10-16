@@ -92,14 +92,12 @@ public class Credenciales {
 			String linea;
 
 			while ((linea = br.readLine()) != null) {
-				// Saltar líneas vacías o mal formateadas
 				if (linea.trim().isEmpty())
 					continue;
 
 				String[] partes = linea.split("\\|");
 				if (partes.length < 7)
-					continue; // línea incompleta
-
+					continue; 
 				String usuario = partes[1];
 				String password = partes[2];
 				String rol = partes[6].trim().toUpperCase();
@@ -121,7 +119,7 @@ public class Credenciales {
 					+ e.getMessage());
 		}
 
-		// Si no se encontró nada, devolvemos null sin romper
+		
 		return null;
 	}
 
