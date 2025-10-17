@@ -52,12 +52,12 @@ public class Persona implements Comparable<Persona> {
 	}
 
 	/**
-	 *Este compareTo, intento ordenar alfabeticamente
-	 *los nombre y sino por los emails. 
+	 * Este compareTo, intento ordenar alfabeticamente los nombre y sino por los
+	 * emails.
 	 */
 	@Override
 	public int compareTo(Persona o) {
-		/*Creo que me faltan muchas cosas*/
+		/* Creo que me faltan muchas cosas */
 		if (o == null) {
 			return 1;
 		}

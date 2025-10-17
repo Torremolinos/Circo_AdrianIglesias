@@ -1,6 +1,5 @@
-/META-INF/
-/Service/
-/application.properties
+/utils/
 /entidades/
 /principal/
-/utils/
+/Service/
+/META-INF/

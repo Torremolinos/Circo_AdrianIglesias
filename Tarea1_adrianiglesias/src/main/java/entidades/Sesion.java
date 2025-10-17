@@ -9,7 +9,7 @@ public class Sesion {
 
 	private String nombre;
 	private Perfil perfil;
-	
+
 	public Sesion() {
 		super();
 	}
@@ -35,27 +35,27 @@ public class Sesion {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	/*esto seria el login para Luis?*/
-	  public void iniciarSesion(String usuario, Perfil perfil) {
-	        this.nombre = usuario;
-	        this.perfil = perfil;
-	    }
 
-	    public void cerrarSesion() {
-	        this.nombre = null;
-	        this.perfil = Perfil.INVITADO;
-	    }
+	public void iniciarSesion(String usuario, Perfil perfil) {
+		this.nombre = usuario;
+		this.perfil = perfil;
+	}
 
-	    public boolean isAutenticado() {
-	        return perfil != Perfil.INVITADO;
-	    }
+	public void cerrarSesion() {
+		this.nombre = null;
+		this.perfil = Perfil.INVITADO;
+	}
 
-	    public Perfil getPerfilActual() {
-	        return perfil;
-	    }
+	public boolean isAutenticado() {
+		return perfil != Perfil.INVITADO;
+	}
 
-	    public String getUsuarioActual() {
-	        return nombre;
-	    }
-	
+	public Perfil getPerfilActual() {
+		return perfil;
+	}
+
+	public String getUsuarioActual() {
+		return nombre;
+	}
+
 }
