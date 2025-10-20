@@ -15,20 +15,21 @@ import java.util.Scanner;
 
 import entidades.Coordinacion;
 import entidades.Espectaculo;
+import entidades.Perfil;
+import utils.Config;
 
 public class EspectaculoService {
 
-	public static String RUTA = "ficheros/espectaculos.dat";
+	static Config config = new Config();
+	public static String RUTA = config.getProperty("espectaculos");
 
 	public void guardarEspectaculos(List<Espectaculo> espectaculos) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(
-						new FileOutputStream(RUTA))) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(RUTA))) {
 			oos.writeObject(espectaculos);
 			System.out.println("Espectáculos guardados" + " correctamente.");
 			System.out.println("---------------------------");
 		} catch (IOException e) {
-			System.out.println("Error al guardar los espectáculos: "
-							+ e.getMessage());
+			System.out.println("Error al guardar los espectáculos: " + e.getMessage());
 		}
 	}
 
@@ -40,38 +41,72 @@ public class EspectaculoService {
 		}
 		/*
 		 * Aqui devuelve un objetc asi que casteamos para que sepa que es un
-		 * List<espectaculos, no se con que anotación o si esta bien para que no
-		 * explote ni el sonarqube o el psalm, dar una vuelta a esto...
+		 * List<espectaculos, no se con que anotación o si esta bien para que no explote
+		 * ni el sonarqube o el psalm, dar una vuelta a esto...
 		 */
 		/**
 		 * @List<Espectaculo>
 		 */
-		try (ObjectInputStream ois = new ObjectInputStream(
-						new FileInputStream(file))) {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
 			return (List<Espectaculo>) ois.readObject();
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Error al leer el fichero de" + "espectáculos: "
-							+ e.getMessage());
+			System.out.println("Error al leer el fichero de" + "espectáculos: " + e.getMessage());
 			return new ArrayList<>();
 		}
 	}
 
-	public void mostrarInformeBasico() {
+	public void mostrarInformeBasico(Perfil perfil) {
 		List<Espectaculo> espectaculos = listaEspectaculos();
 		if (espectaculos.isEmpty()) {
 			System.out.println("No hay espectáculos para mostrar.");
 			return;
 		}
-
-		System.out.println("INFORME DE ESPECTÁCULOS");
-		System.out.println("---------------------------");
-		for (Espectaculo e : espectaculos) {
-			System.out.println("ID: " + e.getId());
-			System.out.println("Nombre: " + e.getNombre());
-			System.out.println("Periodo: " + e.getFechaini() + " → "
-							+ e.getFechafin());
-			System.out.println();
+		
+		switch (perfil) {
+		case INVITADO:
+			System.out.println("INFORME DE ESPECTÁCULOS");
+			System.out.println("---------------------------");
+			for (Espectaculo e : espectaculos) {
+				System.out.println("ID: " + e.getId());
+				System.out.println("Nombre: " + e.getNombre());
+				System.out.println("Periodo: " + e.getFechaini() + " → " + e.getFechafin());
+				System.out.println();
+			}
+			break;
+		case ADMIN:
+			System.out.println("INFORME DE ESPECTÁCULOS");
+			System.out.println("---------------------------");
+			for (Espectaculo e : espectaculos) {
+				System.out.println("ID: " + e.getId());
+				System.out.println("Nombre: " + e.getNombre());
+				System.out.println("Periodo: " + e.getFechaini() + " → " + e.getFechafin());
+				System.out.println();
+			}
+			break;
+		case ARTISTA:
+			System.out.println("INFORME DE ESPECTÁCULOS");
+			System.out.println("---------------------------");
+			for (Espectaculo e : espectaculos) {
+				System.out.println("ID: " + e.getId());
+				System.out.println("Nombre: " + e.getNombre());
+				System.out.println("Periodo: " + e.getFechaini() + " → " + e.getFechafin());
+				System.out.println();
+			}
+			break;
+		case COORDINACION:
+			System.out.println("INFORME DE ESPECTÁCULOS");
+			System.out.println("---------------------------");
+			for (Espectaculo e : espectaculos) {
+				System.out.println("ID: " + e.getId());
+				System.out.println("Nombre: " + e.getNombre());
+				System.out.println("Periodo: " + e.getFechaini() + " → " + e.getFechafin());
+				System.out.println();
+			}
+			break;
+		default:
+			break;
 		}
+
 	}
 
 	public static void crearEspectaculo() {
@@ -102,17 +137,14 @@ public class EspectaculoService {
 		System.out.println("✅ Espectáculo guardado con éxito.");
 	}
 
-	
 	private static void guardarEspectaculo(Espectaculo nuevo) {
 		List<Espectaculo> existentes = leerEspectaculos();
 		existentes.add(nuevo);
 
-		try (ObjectOutputStream oos = new ObjectOutputStream(
-						new FileOutputStream(RUTA))) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(RUTA))) {
 			oos.writeObject(existentes);
 		} catch (IOException e) {
-			System.out.println("❌ Error al guardar espectáculo: "
-							+ e.getMessage());
+			System.out.println("❌ Error al guardar espectáculo: " + e.getMessage());
 		}
 	}
 
@@ -121,8 +153,7 @@ public class EspectaculoService {
 		if (!file.exists())
 			return new ArrayList<>();
 
-		try (ObjectInputStream ois = new ObjectInputStream(
-						new FileInputStream(file))) {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
 			return (List<Espectaculo>) ois.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			return new ArrayList<>();

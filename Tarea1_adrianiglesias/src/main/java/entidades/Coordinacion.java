@@ -1,8 +1,13 @@
+/*
+* Clase Coordinacion.java
+*
+* @author Adrian Iglesias Riño
+* @version 1.0
+*/
+
 package entidades;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Coordinacion extends Persona {

@@ -1,3 +1,10 @@
+/*
+* Clase Sesion.java
+*
+* @author Adrian Iglesias Riño
+* @version 1.0
+*/
+
 package entidades;
 
 /*Es una solucion para mantener la sesion iniciada. Este objeto sesion
@@ -46,16 +53,11 @@ public class Sesion {
 		this.perfil = Perfil.INVITADO;
 	}
 
+	/*Meto aqui el switch para los menus? que puedo hacer con este metodo? 
+	 * autenticar mas que un metood es un filtro?*/
+	
 	public boolean isAutenticado() {
 		return perfil != Perfil.INVITADO;
-	}
-
-	public Perfil getPerfilActual() {
-		return perfil;
-	}
-
-	public String getUsuarioActual() {
-		return nombre;
 	}
 
 }

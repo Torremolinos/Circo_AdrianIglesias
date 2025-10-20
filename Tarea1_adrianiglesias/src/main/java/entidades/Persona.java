@@ -1,3 +1,10 @@
+/*
+* Clase Persona.java
+*
+* @author Adrian Iglesias Riño
+* @version 1.0
+*/
+
 package entidades;
 
 public class Persona implements Comparable<Persona> {
@@ -6,6 +13,8 @@ public class Persona implements Comparable<Persona> {
 	protected String email;
 	protected String nombre;
 	protected String nacionalidad;
+	
+	/*credenciales ??*/
 
 	public Persona() {
 		super();

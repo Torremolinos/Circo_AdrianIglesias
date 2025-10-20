@@ -1,3 +1,10 @@
+/*
+* Clase Espectaculo.java
+*
+* @author Adrian Iglesias Riño
+* @version 1.0
+*/
+
 package entidades;
 
 import java.io.Serializable;
