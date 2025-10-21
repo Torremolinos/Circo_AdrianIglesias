@@ -8,3 +8,10 @@
 8|rapha|rapha|raphael@circo.es|Raphael Costa|Italia|artista
 9|isabel|isabel|mijr@educastur.org|María Isabel Jardón|España|coordinacion
 10|eusebio|eusebio85|eusebio85@gmail.com|Eusebio Prados-García|Venezuela|artista
+11|adri|adri|adri@adri.com|adri igle|España|coordinacion
+12|adro|adro|adro@adro.com|adro dro|Holanda|artista
+13|adrus|adrus|adurs@adru.com|adur adru|Austria|artista
+14|pedro|pedro|pedrop@ped.com|pedro pedro|Korea|artista
+15|ton|ton@ton.com|ton@ton.com|ton ton|Colombia|artista
+16|popo|popo|popo@po.com|po po|Turquía|artista
+17|quim|quim|quim@seyker.eu|Quim Navarro|México|artista

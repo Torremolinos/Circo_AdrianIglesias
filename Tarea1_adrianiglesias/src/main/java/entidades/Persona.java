@@ -13,8 +13,6 @@ public class Persona implements Comparable<Persona> {
 	protected String email;
 	protected String nombre;
 	protected String nacionalidad;
-	
-	/*credenciales ??*/
 
 	public Persona() {
 		super();

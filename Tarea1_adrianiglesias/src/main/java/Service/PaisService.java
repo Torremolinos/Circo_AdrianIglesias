@@ -25,7 +25,7 @@ public class PaisService {
 
 	private Map<String, String> mapaPaises;
 	private static final String rutaXml = new Config()
-					.getProperty("nacionalidades");
+					.getProperty("paisesruta");
 
 	public PaisService() {
 		this.mapaPaises = leerPaises();

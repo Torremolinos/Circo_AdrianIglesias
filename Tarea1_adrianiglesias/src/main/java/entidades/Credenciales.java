@@ -28,14 +28,13 @@ public class Credenciales {
 	private String nombre;
 	private String password;
 	private Perfil perfil;
-	
-	/*persona persona = new persona?*/
 
 	public Credenciales() {
 		super();
 	}
 
-	public Credenciales(Long id, String nombre, String password, Perfil perfil) {
+	public Credenciales(Long id, String nombre, String password,
+					Perfil perfil) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -75,6 +74,7 @@ public class Credenciales {
 		this.perfil = perfil;
 	}
 
+	/* Para un service, o clases Dao. */
 	public void leerCredenciales() {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
@@ -97,12 +97,14 @@ public class Credenciales {
 		}
 	}
 
-	public static Credenciales buscarPorUsuarioYPassword(String usuarioBuscado, String passwordBuscada) {
+	public static Credenciales buscarPorUsuarioYPassword(String usuarioBuscado,
+					String passwordBuscada) {
 
 		String adminUser = config.getProperty("useradmin");
 		String adminPass = config.getProperty("passadmin");
 
-		if (usuarioBuscado.equals(adminUser) && passwordBuscada.equals(adminPass)) {
+		if (usuarioBuscado.equals(adminUser)
+						&& passwordBuscada.equals(adminPass)) {
 			return new Credenciales(0L, adminUser, adminPass, Perfil.ADMIN);
 		}
 
@@ -120,7 +122,8 @@ public class Credenciales {
 				String password = partes[2];
 				String rol = partes[6].trim().toUpperCase();
 
-				if (usuario.equals(usuarioBuscado) && password.equals(passwordBuscada)) {
+				if (usuario.equals(usuarioBuscado)
+								&& password.equals(passwordBuscada)) {
 					Long id = Long.parseLong(partes[0]);
 					Perfil perfil;
 					try {
@@ -132,7 +135,8 @@ public class Credenciales {
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("Error al leer el fichero de credenciales: " + e.getMessage());
+			System.out.println("Error al leer el fichero de credenciales: "
+							+ e.getMessage());
 		}
 
 		return null;
@@ -162,8 +166,10 @@ public class Credenciales {
 		Perfil perfil = null;
 
 		do {
-			System.out.print("Introduce nombre de usuario (solo letras, sin espacios): ");
+			System.out.print(
+							"Introduce nombre de usuario (solo letras, sin espacios): ");
 			usuario = sc.nextLine().trim().toLowerCase();
+
 		} while (!usuario.matches("^[a-z]{3,}$"));
 
 		do {
@@ -182,19 +188,22 @@ public class Credenciales {
 		} while (!nombreCompleto.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"));
 
 		if (existeUsuarioOEmail(usuario, email)) {
-			System.out.println("❌ Ya existe un usuario o email igual en el sistema.");
+			System.out.println(
+							"❌ Ya existe un usuario o email igual en el sistema.");
 			return null;
 		}
 
 		PaisService paisService = new PaisService();
 		Map<String, String> paises = paisService.obtenerTodosLosPaises();
 		if (paises.isEmpty()) {
-			System.out.println("No se han podido cargar los países. Intenta más tarde.");
+			System.out.println(
+							"No se han podido cargar los países. Intenta más tarde.");
 			return null;
 		}
 
 		System.out.println("Países disponibles:");
-		paises.forEach((codigo, nombre) -> System.out.println(codigo + " - " + nombre));
+		paises.forEach((codigo, nombre) -> System.out
+						.println(codigo + " - " + nombre));
 
 		String codigoPais = "";
 
@@ -209,17 +218,17 @@ public class Credenciales {
 		pais = paises.get(codigoPais);
 		System.out.println("Has seleccionado: " + pais);
 
-		int opcionPerfil;
+		int opcionPerfil = -1;
 		do {
 			System.out.println("Selecciona perfil:");
 			System.out.println("1. ADMIN");
 			System.out.println("2. COORDINACION");
 			System.out.println("3. ARTISTA");
 			System.out.print("Opción: ");
-			opcionPerfil = sc.nextInt();
-			sc.nextLine();
+
+			String perfilElegido = sc.nextLine().trim();
 			try {
-				opcionPerfil = Integer.parseInt(sc.nextLine());
+				opcionPerfil = Integer.parseInt(perfilElegido);
 			} catch (NumberFormatException e) {
 				opcionPerfil = -1;
 			}
@@ -244,25 +253,16 @@ public class Credenciales {
 			case 3:
 				perfil = Perfil.ARTISTA;
 				Especialidad especialidadSeleccionada = null;
-				System.out.println("¿Tiene apodo?");
-				boolean tieneApodo = Utilidades.leerBoolean();
-				String apodo = "";
+				boolean especialidadValida = false;
 
-				if (tieneApodo) {
-					apodo = Utilidades.leerString("Introduce el apodo: ", "El apodo no puede estar vacío.");
-				}
-
-				System.out.println("Opciones válidas: ACROBACIA, HUMOR, MAGIA, EQUILIBRISMO, MALABARISMO");
-
-				boolean especialidadValida = true;
-
-				while (especialidadValida) {
+				while (!especialidadValida) {
 					System.out.println("Elige una especialidad:");
 					System.out.println("1. ACROBACIA");
 					System.out.println("2. HUMOR");
 					System.out.println("3. MAGIA");
 					System.out.println("4. EQUILIBRISMO");
 					System.out.println("5. MALABARISMO");
+					System.out.print("Opción: ");
 
 					int opcion = sc.nextInt();
 					sc.nextLine();
@@ -270,7 +270,7 @@ public class Credenciales {
 					switch (opcion) {
 					case 1:
 						especialidadSeleccionada = Especialidad.ACROBACIA;
-						especialidadValida = false;
+						especialidadValida = true;
 						break;
 					case 2:
 						especialidadSeleccionada = Especialidad.HUMOR;
@@ -279,7 +279,6 @@ public class Credenciales {
 					case 3:
 						especialidadSeleccionada = Especialidad.MAGIA;
 						especialidadValida = true;
-
 						break;
 					case 4:
 						especialidadSeleccionada = Especialidad.EQUILIBRISMO;
@@ -289,19 +288,19 @@ public class Credenciales {
 						especialidadSeleccionada = Especialidad.MALABARISMO;
 						especialidadValida = true;
 						break;
-
 					default:
-						System.out.println("Opción no válida, prueba de nuevo.");
+						System.out.println(
+										"Opción inválida. Intenta de nuevo.");
 						break;
 					}
 				}
-
+				break;
 			default:
 				System.out.println("Opción no válida, prueba otra vez.");
 				break;
 			}
 
-		} while (perfil == null);
+		} while (opcionPerfil < 1 || opcionPerfil > 3);
 
 		Credenciales nueva = new Credenciales(null, usuario, password, perfil);
 
@@ -310,21 +309,27 @@ public class Credenciales {
 		return nueva;
 	}
 
-	private static void registrarUsuario(Credenciales nuevo, String email, String nombreCompleto, String pais) {
+	private static void registrarUsuario(Credenciales nuevo, String email,
+					String nombreCompleto, String pais) {
 		long nuevoId = obtenerUltimoId(ruta) + 1;
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(ruta, true))) {
-			String linea = String.format("%d|%s|%s|%s|%s|%s|%s", nuevoId, nuevo.getNombre(), nuevo.getPassword(), email,
-					nombreCompleto, pais, nuevo.getPerfil().name().toLowerCase());
+		try (BufferedWriter bw = new BufferedWriter(
+						new FileWriter(ruta, true))) {
+			String linea = String.format("%d|%s|%s|%s|%s|%s|%s", nuevoId,
+							nuevo.getNombre(), nuevo.getPassword(), email,
+							nombreCompleto, pais,
+							nuevo.getPerfil().name().toLowerCase());
 			bw.newLine();
 			bw.write(linea);
 			System.out.println("✅ Usuario registrado con éxito.");
 		} catch (IOException e) {
-			System.out.println("❌ Error al registrar usuario: " + e.getMessage());
+			System.out.println(
+							"❌ Error al registrar usuario: " + e.getMessage());
 		}
 	}
 
+	/* No se yo eh, viola mucho la seguridad */
 	private static boolean existeUsuarioOEmail(String usuario, String email) {
-		try (BufferedReader br = new BufferedReader(new FileReader("credenciales.txt"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
 			String linea;
 			while ((linea = br.readLine()) != null) {
 				if (linea.trim().isEmpty())
@@ -334,13 +339,16 @@ public class Credenciales {
 					String usuarioExistente = partes[1].trim().toLowerCase();
 					String emailExistente = partes[3].trim().toLowerCase();
 
-					if (usuarioExistente.equals(usuario.toLowerCase()) || emailExistente.equals(email.toLowerCase())) {
-						return true; 
+					if (usuarioExistente.equals(usuario.toLowerCase())
+									|| emailExistente.equals(
+													email.toLowerCase())) {
+						return true;
 					}
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("❌ Error al leer credenciales.txt: " + e.getMessage());
+			System.out.println("❌ Error al leer credenciales.txt: "
+							+ e.getMessage());
 		}
 		return false;
 	}

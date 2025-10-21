@@ -14,43 +14,56 @@ public class MenuService {
 		this.sesion = sesion;
 	}
 
-	private void menuInvitado() {
-		
-		/*ROMPE SI METES LETRAS CAMBIAAAAAR*/
+	private boolean menuInvitado() {
+
 		EspectaculoService espectaculo = new EspectaculoService();
 		boolean comprobador = true;
 		Scanner usuario = new Scanner(System.in);
-		int eleccion = 0;
+		String entrada;
+		int eleccion = -1;
 
 		do {
-			System.out.println(" 🎪 Te damos la bienvenida a nuestro Circo 🎪 ");
 			System.out.println("Bienvenido " + sesion.getPerfil());
-			System.out.println("Tienes que elegir una de las opciones para continuar : ");
+			System.out.println(
+							" 🎪 Te damos la bienvenida a nuestro Circo 🎪 ");
+			System.out.println(
+							"Tienes que elegir una de las opciones para continuar : ");
 			System.out.println("1.Iniciar sesión");
 			System.out.println("2.Ver espectaculos");
 			System.out.println("3.Salir");
 
-			eleccion = usuario.nextInt();
-			usuario.nextLine();
+			entrada = usuario.nextLine().trim();
+			try {
+				eleccion = Integer.parseInt(entrada);
+			} catch (NumberFormatException e) {
+				System.out.println("⚠️ Debes introducir un número");
+				System.out.println();
+
+				continue;
+			}
 			switch (eleccion) {
 			case 1:
-				System.out.println("Introduce tu nombre de usuario, por favor: ");
+				System.out.println(
+								"Introduce tu nombre de usuario, por favor: ");
 				String credencialUsuario = usuario.nextLine().trim();
 
 				System.out.println("Introduce tu contraseña por favor: ");
 				String credencalPassword = usuario.nextLine().trim();
 
-				Credenciales credencialesUsuario = Credenciales.buscarPorUsuarioYPassword(credencialUsuario,
-						credencalPassword);
+				Credenciales credencialesUsuario = Credenciales
+								.buscarPorUsuarioYPassword(credencialUsuario,
+												credencalPassword);
 
 				if (credencialesUsuario != null) {
-					System.out.println("✅ Inicio de sesión correcto. Bienvenido " + usuario + "!");
-					sesion.iniciarSesion(credencialesUsuario.getNombre(), credencialesUsuario.getPerfil());
+					System.out.println("✅ Inicio de sesión correcto.");
+					sesion.iniciarSesion(credencialesUsuario.getNombre(),
+									credencialesUsuario.getPerfil());
 
 					iniciarPrograma(sesion);
 					comprobador = false;
 				} else {
-					System.out.println("❌ Usuario o contraseña incorrectos. Intenta de nuevo.");
+					System.out.println(
+									"❌ Usuario o contraseña incorrectos. Intentalo de nuevo.");
 				}
 				break;
 
@@ -60,16 +73,18 @@ public class MenuService {
 				break;
 
 			case 3:
-				System.out.println("¡Gracias por tu visita esperamos verte pronto!");
+				System.out.println(
+								"¡Gracias por tu visita esperamos verte pronto!");
 				comprobador = false;
-				break;
+				return false;
 
 			default:
-				System.out.println("La opcion marcada es incorrecta, por favor intentalo de nuevo.");
+				System.out.println(
+								"La opcion marcada es incorrecta, por favor intentalo de nuevo.");
 				break;
 			}
 		} while (comprobador);
-
+		return false;
 	}
 
 	private boolean menuAdmin() {
@@ -77,21 +92,35 @@ public class MenuService {
 		Credenciales credenciales = new Credenciales();
 		boolean comprobador = true;
 		Scanner usuario = new Scanner(System.in);
-		int eleccion = 0;
+		System.out.println("Bienvenido " + sesion.getPerfil());
+		String entrada;
+		int eleccion = -1;
 		do {
-			System.out.println("\n=== MENÚ🧑‍💻 " + sesion.getPerfil() + " 🧑‍💻===");
+			System.out.println("\n===(͠≖ ͜ʖ͠≖) MENÚ " + sesion.getPerfil()
+							+ " (͠≖ ͜ʖ͠≖)===");
 			System.out.println("Bienvenido " + sesion.getPerfil());
-			System.out.println("Tienes que elegir una de las opciones para continuar : ");
+			System.out.println(
+							"Tienes que elegir una de las opciones para continuar : ");
 			System.out.println("1.Ver espectáculo");
 			System.out.println("2.Registrar Usuarios");
-			System.out.println("3.Asignar perfil y credenciales");
-			System.out.println("4.Gestionar datos de Artistas y de Coordinacion");
-			System.out.println("5.Ver datos de espectáculo completo");
-			System.out.println("6.Ver ficha");
-			System.out.println("7.Log out");
-			System.out.println("8.Salir");
+			System.out.println("3.Crear y modificar espectáculos");
+			System.out.println("4.Asignar perfil y credenciales");
+			System.out.println(
+							"5.Gestionar datos de Artistas y de Coordinacion");
+			System.out.println("6.Ver datos de espectáculo completo");
+			System.out.println("7.Ver ficha");
+			System.out.println("8.Log out");
+			System.out.println("9.Salir");
 
-			eleccion = usuario.nextInt();
+			entrada = usuario.nextLine().trim();
+			try {
+				eleccion = Integer.parseInt(entrada);
+			} catch (NumberFormatException e) {
+				System.out.println(" ༼ ಠ 益 ಠ༽ Debes introducir un número");
+				System.out.println();
+
+				continue;
+			}
 
 			switch (eleccion) {
 			case 1:
@@ -101,14 +130,16 @@ public class MenuService {
 			case 2:
 				credenciales = Credenciales.crearNuevaCredencial();
 				if (credenciales != null) {
-					System.out.println("✅ Usuario creado con éxito: " + credenciales.getNombre());
+					System.out.println("✅ Usuario creado con éxito: "
+									+ credenciales.getNombre());
 				} else {
 					System.out.println("❌ No se pudo crear el usuario.");
 				}
 				break;
 
 			case 3:
-				System.out.println("En construcción aún no disponible");
+				System.out.println("Crear y modificar espectáculos");
+				EspectaculoService.crearEspectaculo(Perfil.COORDINACION);
 				break;
 
 			case 4:
@@ -124,12 +155,17 @@ public class MenuService {
 				break;
 
 			case 7:
+				System.out.println("En construcción aún no disponible");
+				break;
+
+			case 8:
 				System.out.println("Saliendo al menu principal...");
-				sesion.setPerfil(Perfil.INVITADO);
+				sesion.cerrarSesion();
+				this.iniciarPrograma(sesion);
 				comprobador = false;
 				return true;
 
-			case 8:
+			case 9:
 				System.out.println("Hasta la proxima " + sesion.getPerfil());
 				sesion.setPerfil(Perfil.INVITADO);
 				comprobador = false;
@@ -155,29 +191,19 @@ public class MenuService {
 		return true;
 	}
 
-	public void iniciarPrograma(Sesion perfil) {
-		boolean continuador = true;
+	public boolean iniciarPrograma(Sesion perfil) {
 		switch (perfil.getPerfil()) {
 		case INVITADO:
-			menuInvitado();
-			break;
-
+			return menuInvitado();
 		case ADMIN:
-			menuAdmin();
-			break;
-
+			return menuAdmin();
 		case ARTISTA:
-			menuArtista();
-			break;
-
+			return menuArtista();
 		case COORDINACION:
-			menuCoordinador();
-			break;
+			return menuCoordinador();
 		default:
-			System.out.println("Perfil no registrado o inexistente.");
-			continuador = false;
-			break;
+			System.out.println("Perfil no existente.");
+			return true;
 		}
-
 	}
 }
