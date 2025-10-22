@@ -320,7 +320,7 @@ public class EspectaculoService {
 						? seleccionado.getCoordinacion().getNombre()
 						: "Sin asignar"));
 
-		System.out.print("Introduce el nuevo nombre (Enter para mantener): "); 
+		System.out.print("Introduce el nuevo nombre (Enter para mantener): ");
 		String nuevoNombre = sc.nextLine().trim();
 		if (!nuevoNombre.isEmpty()) {
 			if (nuevoNombre.length() > 25) {
