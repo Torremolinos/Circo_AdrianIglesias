@@ -7,11 +7,13 @@
 
 package entidades;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Coordinacion extends Persona {
+public class Coordinacion extends Persona implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Long idCoord;
 	private boolean senior = false;
 	private LocalDate fechasenior = null;

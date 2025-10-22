@@ -7,8 +7,10 @@
 
 package entidades;
 
-public class Persona implements Comparable<Persona> {
+import java.io.Serializable;
 
+public class Persona implements Comparable<Persona>, Serializable {
+	private static final long serialVersionUID = 1L;
 	protected Long id;
 	protected String email;
 	protected String nombre;

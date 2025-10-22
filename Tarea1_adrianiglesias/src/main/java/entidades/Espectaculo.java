@@ -21,8 +21,6 @@ public class Espectaculo implements Serializable{
 	private LocalDate fechaini;
 	private LocalDate fechafin;
 	private Coordinacion coordinacion;
-	/*La diferencia seria carga pesada y carga ligera, 
-	 * y que los datos vienen completos.*/
 	
 	/*private Long idCoord*/
 	private Set<Numero> numeros = new HashSet<>();

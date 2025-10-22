@@ -15,3 +15,5 @@
 15|ton|ton@ton.com|ton@ton.com|ton ton|Colombia|artista
 16|popo|popo|popo@po.com|po po|Turquía|artista
 17|quim|quim|quim@seyker.eu|Quim Navarro|México|artista
+18|adriano|adriano|adriano@adriano.com|adriano adriano|Italia|coordinacion
+19|alba|alba|alba@alba.com|alba garcia|España|artista

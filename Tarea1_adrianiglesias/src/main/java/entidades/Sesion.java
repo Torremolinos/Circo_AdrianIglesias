@@ -60,4 +60,5 @@ public class Sesion {
 		return perfil != Perfil.INVITADO;
 	}
 
+	
 }

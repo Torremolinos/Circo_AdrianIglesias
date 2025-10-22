@@ -34,7 +34,7 @@ public class Credenciales {
 	}
 
 	public Credenciales(Long id, String nombre, String password,
-					Perfil perfil) {
+			Perfil perfil) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -98,13 +98,13 @@ public class Credenciales {
 	}
 
 	public static Credenciales buscarPorUsuarioYPassword(String usuarioBuscado,
-					String passwordBuscada) {
+			String passwordBuscada) {
 
 		String adminUser = config.getProperty("useradmin");
 		String adminPass = config.getProperty("passadmin");
 
 		if (usuarioBuscado.equals(adminUser)
-						&& passwordBuscada.equals(adminPass)) {
+				&& passwordBuscada.equals(adminPass)) {
 			return new Credenciales(0L, adminUser, adminPass, Perfil.ADMIN);
 		}
 
@@ -123,7 +123,7 @@ public class Credenciales {
 				String rol = partes[6].trim().toUpperCase();
 
 				if (usuario.equals(usuarioBuscado)
-								&& password.equals(passwordBuscada)) {
+						&& password.equals(passwordBuscada)) {
 					Long id = Long.parseLong(partes[0]);
 					Perfil perfil;
 					try {
@@ -136,7 +136,7 @@ public class Credenciales {
 			}
 		} catch (IOException e) {
 			System.out.println("Error al leer el fichero de credenciales: "
-							+ e.getMessage());
+					+ e.getMessage());
 		}
 
 		return null;
@@ -167,7 +167,7 @@ public class Credenciales {
 
 		do {
 			System.out.print(
-							"Introduce nombre de usuario (solo letras, sin espacios): ");
+					"Introduce nombre de usuario (solo letras, sin espacios): ");
 			usuario = sc.nextLine().trim().toLowerCase();
 
 		} while (!usuario.matches("^[a-z]{3,}$"));
@@ -189,21 +189,21 @@ public class Credenciales {
 
 		if (existeUsuarioOEmail(usuario, email)) {
 			System.out.println(
-							"❌ Ya existe un usuario o email igual en el sistema.");
+					"❌ Ya existe un usuario o email igual en el sistema.");
 			return null;
 		}
 
 		PaisService paisService = new PaisService();
 		Map<String, String> paises = paisService.obtenerTodosLosPaises();
-		if (paises.isEmpty()) {
+		if (paises == null || paises.isEmpty()) {
 			System.out.println(
-							"No se han podido cargar los países. Intenta más tarde.");
+					"❌ No se pudieron cargar los países desde el XML.");
 			return null;
 		}
 
 		System.out.println("Países disponibles:");
 		paises.forEach((codigo, nombre) -> System.out
-						.println(codigo + " - " + nombre));
+				.println(codigo + " - " + nombre));
 
 		String codigoPais = "";
 
@@ -221,9 +221,8 @@ public class Credenciales {
 		int opcionPerfil = -1;
 		do {
 			System.out.println("Selecciona perfil:");
-			System.out.println("1. ADMIN");
-			System.out.println("2. COORDINACION");
-			System.out.println("3. ARTISTA");
+			System.out.println("1. COORDINACION");
+			System.out.println("2. ARTISTA");
 			System.out.print("Opción: ");
 
 			String perfilElegido = sc.nextLine().trim();
@@ -235,10 +234,6 @@ public class Credenciales {
 
 			switch (opcionPerfil) {
 			case 1:
-				perfil = Perfil.ADMIN;
-				break;
-
-			case 2:
 				perfil = Perfil.COORDINACION;
 				System.out.println("¿Es senior?");
 				boolean esSenior = Utilidades.leerBoolean();
@@ -247,10 +242,9 @@ public class Credenciales {
 				if (esSenior) {
 					fechaSenior = Utilidades.leerFecha();
 				}
-				/* revisa esto porque huele raro */
 				break;
 
-			case 3:
+			case 2:
 				perfil = Perfil.ARTISTA;
 				Especialidad especialidadSeleccionada = null;
 				boolean especialidadValida = false;
@@ -289,8 +283,8 @@ public class Credenciales {
 						especialidadValida = true;
 						break;
 					default:
-						System.out.println(
-										"Opción inválida. Intenta de nuevo.");
+						System.out
+								.println("Opción inválida. Intenta de nuevo.");
 						break;
 					}
 				}
@@ -300,7 +294,7 @@ public class Credenciales {
 				break;
 			}
 
-		} while (opcionPerfil < 1 || opcionPerfil > 3);
+		} while (opcionPerfil < 1 || opcionPerfil > 2);
 
 		Credenciales nueva = new Credenciales(null, usuario, password, perfil);
 
@@ -310,20 +304,21 @@ public class Credenciales {
 	}
 
 	private static void registrarUsuario(Credenciales nuevo, String email,
-					String nombreCompleto, String pais) {
+			String nombreCompleto, String pais) {
 		long nuevoId = obtenerUltimoId(ruta) + 1;
 		try (BufferedWriter bw = new BufferedWriter(
-						new FileWriter(ruta, true))) {
+				new FileWriter(ruta, true))) {
 			String linea = String.format("%d|%s|%s|%s|%s|%s|%s", nuevoId,
-							nuevo.getNombre(), nuevo.getPassword(), email,
-							nombreCompleto, pais,
-							nuevo.getPerfil().name().toLowerCase());
+					nuevo.getNombre(), nuevo.getPassword(), email,
+					nombreCompleto, pais,
+					nuevo.getPerfil().name().toLowerCase());
 			bw.newLine();
 			bw.write(linea);
 			System.out.println("✅ Usuario registrado con éxito.");
+			
 		} catch (IOException e) {
-			System.out.println(
-							"❌ Error al registrar usuario: " + e.getMessage());
+			System.out
+					.println("❌ Error al registrar usuario: " + e.getMessage());
 		}
 	}
 
@@ -340,15 +335,14 @@ public class Credenciales {
 					String emailExistente = partes[3].trim().toLowerCase();
 
 					if (usuarioExistente.equals(usuario.toLowerCase())
-									|| emailExistente.equals(
-													email.toLowerCase())) {
+							|| emailExistente.equals(email.toLowerCase())) {
 						return true;
 					}
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("❌ Error al leer credenciales.txt: "
-							+ e.getMessage());
+			System.out.println(
+					"❌ Error al leer credenciales.txt: " + e.getMessage());
 		}
 		return false;
 	}
