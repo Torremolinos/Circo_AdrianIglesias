@@ -51,7 +51,7 @@ public class MenuService {
 				System.out.println("Introduce tu contraseña por favor: ");
 				String credencalPassword = usuario.nextLine().trim();
 
-				Credenciales credencialesUsuario = Credenciales
+				Credenciales credencialesUsuario = CredencialesService
 						.buscarPorUsuarioYPassword(credencialUsuario,
 								credencalPassword);
 
@@ -69,7 +69,6 @@ public class MenuService {
 				break;
 
 			case 2:
-				System.out.println("Espectáculos");
 				espectaculo.mostrarInformeBasico(sesion.getPerfil());
 				break;
 
@@ -100,7 +99,7 @@ public class MenuService {
 		do {
 			System.out.println("\n===(͠≖ ͜ʖ͠≖) MENÚ " + sesion.getPerfil()
 					+ " (͠≖ ͜ʖ͠≖)===");
-			System.out.println("Bienvenido " + sesion.getNombre());
+			System.out.println("🎪Bienvenido " + sesion.getNombre());
 			System.out.println(
 					"Tienes que elegir una de las opciones para continuar : ");
 			System.out.println("1.Ver espectáculo");
@@ -131,7 +130,7 @@ public class MenuService {
 				break;
 
 			case 2:
-				credenciales = Credenciales.crearNuevaCredencial();
+				credenciales = CredencialesService.crearNuevaCredencial();
 				if (credenciales != null) {
 					System.out.println("✅ Usuario creado con éxito: "
 							+ credenciales.getNombre());
@@ -196,7 +195,7 @@ public class MenuService {
 	    int eleccion = -1;
 
 	    do {
-	        System.out.println("\n=== 🎪 MENÚ COORDINACIÓN ===");
+	        System.out.println("\n=== 🎪 MENÚ COORDINACIÓN 🎪 ===");
 	        System.out.println("Bienvenido/a, " + sesion.getNombre());
 	        System.out.println("Elige una opción:");
 	        System.out.println("1. Ver espectáculos");
@@ -218,11 +217,9 @@ public class MenuService {
 	                espectaculo.mostrarInformeBasico(sesion.getPerfil());
 	                break;
 	            case 2:
-	                System.out.println("=== Crear espectáculo ===");
 	                EspectaculoService.crearEspectaculo(sesion.getPerfil());
 	                break;
 	            case 3:
-	                System.out.println("=== Modificar espectáculo ===");
 	                EspectaculoService.modificarEspectaculo(sesion.getPerfil());
 	                break;
 	            case 4:
@@ -250,7 +247,7 @@ public class MenuService {
 	    int eleccion = -1;
 
 	    do {
-	        System.out.println("\n=== 🎨 MENÚ ARTISTA ===");
+	        System.out.println("\n=== 🎨 MENÚ ARTISTA 🎨 ===");
 	        System.out.println("Bienvenido/a, " + sesion.getNombre());
 	        System.out.println("Selecciona una opción:");
 	        System.out.println("1. Ver espectáculos disponibles");
@@ -308,6 +305,7 @@ public class MenuService {
 		}
 	}
 	public boolean SesionActiva() {
+		System.out.println("Sesión activa: " + sesion.getPerfil());
 	    if (this.sesion == null || this.sesion.getPerfil() == null) {
 	        System.out.println("⚠️ No hay sesión activa. Por favor, inicia sesión primero.");
 	        return false; 

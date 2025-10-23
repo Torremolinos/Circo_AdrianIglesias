@@ -10,8 +10,11 @@ package Service;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import entidades.Coordinacion;
 import entidades.Espectaculo;
@@ -23,7 +26,16 @@ public class EspectaculoService {
 
 	static Config config = new Config();
 	public static String RUTA = config.getProperty("espectaculos");
+	public static String RUTAcredenciales = config.getProperty("credenciales");
 
+	
+	
+	/**
+	 * Aqui usamos ObjectOutputStream para escribir en un flujo de salida,
+	 * serializando el objeto, lo usariamos para guardar esos bytes en un 
+	 * archivo en este caso espectaculos.dat
+	 * @param espectaculos
+	 */
 	public void guardarEspectaculos(List<Espectaculo> espectaculos) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(
 				new FileOutputStream(RUTA))) {
@@ -36,32 +48,39 @@ public class EspectaculoService {
 		}
 	}
 
-	public List<Espectaculo> listaEspectaculos() {
-		File file = new File(RUTA);
-		if (!file.exists()) {
-			System.out.println("No hay espectáculos registrados" + "aún.");
-			return new ArrayList<>();
-		}
-		/*
-		 * Aqui devuelve un objetc asi que casteamos para que sepa que es un
-		 * List<espectaculos, no se con que anotación o si esta bien para que no
-		 * explote ni el sonarqube o el psalm, dar una vuelta a esto...
-		 */
-		/**
-		 * @List<Espectaculo>
-		 */
-		try (ObjectInputStream ois = new ObjectInputStream(
-				new FileInputStream(file))) {
-			return (List<Espectaculo>) ois.readObject();
-		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Error al leer el fichero de" + "espectáculos: "
-					+ e.getMessage());
-			return new ArrayList<>();
-		}
+	/**
+	 * Aqui usamos ObjectInputStream para leer del fichero.dat los espectaculos
+	 * que hemos almacenado. En este metodo retornamos un LinkedHashSet
+	 * de los espectaculos.
+	 * @return
+	 */
+	public static LinkedHashSet<Espectaculo> listaEspectaculos() {
+		 File file = new File(RUTA);
+
+		    if (!file.exists() || file.length() == 0)
+		        return new LinkedHashSet<>();
+
+		    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+		        Object obj = ois.readObject();
+		        if (obj instanceof LinkedHashSet) {
+		            return (LinkedHashSet<Espectaculo>) obj;
+		        } else if (obj instanceof Set) {
+		            return new LinkedHashSet<>((Set<Espectaculo>) obj);
+		        } else {
+		            return new LinkedHashSet<>();
+		        }
+		    } catch (IOException | ClassNotFoundException e) {
+		        System.err.println("Error al leer espectáculos: " + e.getMessage());
+		        return new LinkedHashSet<>();
+		    }
 	}
 
+	/**
+	 * Aqui mostramos el menu de los espectaculos
+	 * @param perfil
+	 */
 	public void mostrarInformeBasico(Perfil perfil) {
-		List<Espectaculo> espectaculos = listaEspectaculos();
+		LinkedHashSet<Espectaculo> espectaculos = listaEspectaculos();
 		if (espectaculos.isEmpty()) {
 			System.out.println("No hay espectáculos para mostrar.");
 			return;
@@ -74,7 +93,7 @@ public class EspectaculoService {
 			for (Espectaculo e : espectaculos) {
 				System.out.println("ID: " + e.getId());
 				System.out.println("Nombre: " + e.getNombre());
-				System.out.println("Periodo: " + e.getFechaini() + " → "
+				System.out.println("Periodo desde: " + e.getFechaini() + " hasta "
 						+ e.getFechafin());
 				System.out.println();
 			}
@@ -85,7 +104,7 @@ public class EspectaculoService {
 			for (Espectaculo e : espectaculos) {
 				System.out.println("ID: " + e.getId());
 				System.out.println("Nombre: " + e.getNombre());
-				System.out.println("Periodo: " + e.getFechaini() + " → "
+				System.out.println("Periodo desde: " + e.getFechaini() + " hasta "
 						+ e.getFechafin());
 				System.out.println();
 			}
@@ -96,7 +115,7 @@ public class EspectaculoService {
 			for (Espectaculo e : espectaculos) {
 				System.out.println("ID: " + e.getId());
 				System.out.println("Nombre: " + e.getNombre());
-				System.out.println("Periodo: " + e.getFechaini() + " → "
+				System.out.println("Periodo desde: " + e.getFechaini() + " hasta "
 						+ e.getFechafin());
 				System.out.println();
 			}
@@ -107,7 +126,7 @@ public class EspectaculoService {
 			for (Espectaculo e : espectaculos) {
 				System.out.println("ID: " + e.getId());
 				System.out.println("Nombre: " + e.getNombre());
-				System.out.println("Periodo: " + e.getFechaini() + " → "
+				System.out.println("Periodo desde: " + e.getFechaini() + " hasta "
 						+ e.getFechafin());
 				System.out.println();
 			}
@@ -118,11 +137,15 @@ public class EspectaculoService {
 
 	}
 
+	/***
+	 * Creamos espectaculos pidiendo el perfil del usuario como parametro.
+	 * @param perfilUsuario
+	 */
 	public static void crearEspectaculo(Perfil perfilUsuario) {
 		Coordinacion usuarioCoord = new Coordinacion();
 		Scanner sc = new Scanner(System.in);
 
-		List<Espectaculo> existentes = leerEspectaculos();
+		HashSet<Espectaculo> existentes = listaEspectaculos();
 
 		System.out.println("=== Creación de nuevo espectáculo ===");
 
@@ -190,8 +213,12 @@ public class EspectaculoService {
 		}
 	}
 
+	/**
+	 * Aqui guardamos el espectaculo en nuestro fichero.dat
+	 * @param nuevo
+	 */
 	private static void guardarEspectaculo(Espectaculo nuevo) {
-		List<Espectaculo> existentes = leerEspectaculos();
+		HashSet<Espectaculo> existentes = listaEspectaculos();
 		existentes.add(nuevo);
 
 		try (ObjectOutputStream oos = new ObjectOutputStream(
@@ -203,24 +230,14 @@ public class EspectaculoService {
 		}
 	}
 
-	public static List<Espectaculo> leerEspectaculos() {
-		File file = new File(RUTA);
-		if (!file.exists())
-			return new ArrayList<>();
-
-		try (ObjectInputStream ois = new ObjectInputStream(
-				new FileInputStream(file))) {
-			return (List<Espectaculo>) ois.readObject();
-		} catch (IOException | ClassNotFoundException e) {
-			return new ArrayList<>();
-		}
-	}
 
 	private static long generarNuevoId() {
-		List<Espectaculo> existentes = leerEspectaculos();
-		if (existentes.isEmpty())
-			return 1;
-		return existentes.get(existentes.size() - 1).getId() + 1;
+		
+		Set<Espectaculo> existentes = listaEspectaculos();
+
+		return existentes.isEmpty() ? 1
+				: existentes.stream().mapToLong(Espectaculo::getId).max()
+						.orElse(0) + 1;
 	}
 
 	public static Coordinacion seleccionarCoordinador() {
@@ -228,14 +245,14 @@ public class EspectaculoService {
 		List<Coordinacion> coordinadores = new ArrayList<>();
 
 		try {
-			BufferedReader lectura = new BufferedReader(new FileReader(RUTA));
+			BufferedReader lectura = new BufferedReader(new FileReader(RUTAcredenciales));
 			String linea;
 			while ((linea = lectura.readLine()) != null) {
 				String[] parte = linea.split("\\|");
 				if (parte.length == 7
 						&& parte[6].equalsIgnoreCase("coordinacion")) {
 					Coordinacion coordinador = new Coordinacion();
-					coordinador.setId((long) Integer.parseInt(parte[0]));
+					coordinador.setId((long) Integer.parseInt(parte[0])+1);
 					coordinador.setNombre(parte[4]);
 					coordinador.setNacionalidad(parte[5]);
 					coordinadores.add(coordinador);
@@ -253,7 +270,7 @@ public class EspectaculoService {
 		System.out.println("=== Selecciona un coordinador ===");
 		for (int i = 0; i < coordinadores.size(); i++) {
 			Coordinacion listaCordinadoresRegistrados = coordinadores.get(i);
-			System.out.printf("%d → %s (%s)%n", i,
+			System.out.printf("%d → %s (%s)%n", (i+1),
 					listaCordinadoresRegistrados.getNombre(),
 					listaCordinadoresRegistrados.getNacionalidad());
 		}
@@ -280,7 +297,7 @@ public class EspectaculoService {
 
 	public static void modificarEspectaculo(Perfil perfilUsuario) {
 		Scanner sc = new Scanner(System.in);
-		List<Espectaculo> espectaculos = leerEspectaculos();
+		HashSet<Espectaculo> espectaculos = listaEspectaculos();
 
 		if (espectaculos.isEmpty()) {
 			System.out.println(
@@ -354,8 +371,6 @@ public class EspectaculoService {
 				Coordinacion nuevoCoord = seleccionarCoordinador();
 				if (nuevoCoord != null) {
 					seleccionado.setCoordinacion(nuevoCoord);
-					System.out.println("✅ Coordinador actualizado: "
-							+ nuevoCoord.getNombre());
 				} else {
 					System.out.println("⚠ No se cambió el coordinador.");
 				}

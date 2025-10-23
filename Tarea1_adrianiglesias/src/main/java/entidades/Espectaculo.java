@@ -29,14 +29,37 @@ public class Espectaculo implements Serializable{
 		super();
 	}
 
-	public Espectaculo(Long id, String nombre, LocalDate fechaini, LocalDate fechafin, Coordinacion coordinacion) {
+
+	public Espectaculo(Long id, String nombre, LocalDate fechaini,
+			LocalDate fechafin, Coordinacion coordinacion,
+			Set<Numero> numeros) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.fechaini = fechaini;
 		this.fechafin = fechafin;
 		this.coordinacion = coordinacion;
+		this.numeros = numeros;
 	}
+
+
+	public Set<Numero> getNumeros() {
+		return numeros;
+	}
+
+
+
+	public void setNumeros(Set<Numero> numeros) {
+		this.numeros = numeros;
+	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
 
 	public Long getId() {
 		return id;

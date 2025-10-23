@@ -25,26 +25,30 @@ public class Utilidades {
 	 * a que lo introduzca de nuevo.
 	 *
 	 * @return true si el usuario introduce 's' o 'S'; false si el usuario
-	 *         introduce 'n' o 'N'
+	 *         introduce 'n' o 'N' Ahora si, antes si se 
 	 */
 	public static boolean leerBoolean() {
-		boolean ret;
-		Scanner in;
-		char resp;
-		do {
-			System.out.println("Pulse s para Sí o n para No");
-			in = new Scanner(System.in, "ISO-8859-1");
-			resp = in.nextLine().charAt(0);
-			if (resp != 's' && resp != 'S' && resp != 'n' && resp != 'N') {
-				System.out.println("Valor introducido incorrecto.");
-			}
-		} while (resp != 's' && resp != 'S' && resp != 'n' && resp != 'N');
-		if (resp == 's' || resp != 'S') {
-			ret = true;
-		} else {
-			ret = false;
-		}
-		return ret;
+	    Scanner in = new Scanner(System.in, "ISO-8859-1");
+	    char resp;
+	    do {
+	        System.out.println("Pulse S para Sí o N para No:");
+	        String entrada = in.nextLine().trim();
+	        
+	        if (entrada.isEmpty()) {
+	            System.out.println("Valor vacío. Intente de nuevo.");
+	            continue;
+	        }
+
+	        resp = entrada.charAt(0);
+
+	        if (resp == 's' || resp == 'S') {
+	            return true;
+	        } else if (resp == 'n' || resp == 'N') {
+	            return false;
+	        } else {
+	            System.out.println("Valor introducido incorrecto. Introduzca S o N.");
+	        }
+	    } while (true);
 	}
 
 	/**

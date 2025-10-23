@@ -17,7 +17,6 @@ public class Principal {
 
 		Sesion sesionActiva = new Sesion("Invitado", Perfil.INVITADO);
 		MenuService vistaMenu = new MenuService(sesionActiva);
-		System.out.println("Sesión activa: " + sesionActiva.getPerfil());
 		vistaMenu.iniciarPrograma(sesionActiva);
 
 	}
