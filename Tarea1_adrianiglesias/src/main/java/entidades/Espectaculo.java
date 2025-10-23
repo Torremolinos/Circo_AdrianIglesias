@@ -21,8 +21,7 @@ public class Espectaculo implements Serializable{
 	private LocalDate fechaini;
 	private LocalDate fechafin;
 	private Coordinacion coordinacion;
-	
-	/*private Long idCoord*/
+	/*private Long idCoord?*/
 	private Set<Numero> numeros = new HashSet<>();
 
 	public Espectaculo() {

@@ -14,6 +14,12 @@ public class MenuService {
 	public MenuService(Sesion sesion) {
 		this.sesion = sesion;
 	}
+	
+	/**
+	 * Este metodo gestiona el menu invitado, nos muestras su menu con 
+	 * las funciones accesibles.
+	 * @return
+	 */
 
 	private boolean menuInvitado() {
 		SesionActiva();
@@ -26,7 +32,7 @@ public class MenuService {
 		do {
 			System.out.println("Bienvenido " + sesion.getPerfil());
 			System.out
-					.println(" 🎪 Te damos la bienvenida a nuestro Circo 🎪 ");
+					.println("🎪 Te damos la bienvenida a nuestro Circo 🎪 ");
 			System.out.println(
 					"Tienes que elegir una de las opciones para continuar : ");
 			System.out.println("1.Iniciar sesión");
@@ -87,6 +93,12 @@ public class MenuService {
 		return false;
 	}
 
+	/**
+	 * Este metodo gestiona el menuAdmin, dandonos acceso a las diferentes acciones o funcionalidades
+	 * que puede acceder el admin.
+	 * Tambien hay partes del menu en construccion a futuras mejoras.
+	 * @return
+	 */
 	private boolean menuAdmin() {
 		SesionActiva();
 		EspectaculoService espectaculo = new EspectaculoService();
@@ -131,12 +143,6 @@ public class MenuService {
 
 			case 2:
 				credenciales = CredencialesService.crearNuevaCredencial();
-				if (credenciales != null) {
-					System.out.println("✅ Usuario creado con éxito: "
-							+ credenciales.getNombre());
-				} else {
-					System.out.println("❌ No se pudo crear el usuario.");
-				}
 				break;
 
 			case 3:
@@ -186,6 +192,12 @@ public class MenuService {
 		return true;
 	}
 
+	/**
+	 * Este metodo nos permite acceder a las funcionalidades del menu y poder elegirlas
+	 * correspondientemente.
+	 * @return
+	 */
+	
 	private boolean menuCoordinador() {
 		SesionActiva();
 	    EspectaculoService espectaculo = new EspectaculoService();
@@ -195,7 +207,7 @@ public class MenuService {
 	    int eleccion = -1;
 
 	    do {
-	        System.out.println("\n=== 🎪 MENÚ COORDINACIÓN 🎪 ===");
+	        System.out.println("\n=== 🎪 MENÚ "+sesion.getPerfil()+" 🎪 ===");
 	        System.out.println("Bienvenido/a, " + sesion.getNombre());
 	        System.out.println("Elige una opción:");
 	        System.out.println("1. Ver espectáculos");
@@ -238,7 +250,12 @@ public class MenuService {
 	    } while (comprobador);
 	    return true;
 	}
-
+	
+	/**
+	 * Este metodo nos permite acceder al menu artista para gestionar sus 
+	 * diferentes funciones.
+	 * @return
+	 */
 	private boolean menuArtista() {
 		SesionActiva();
 	    boolean comprobador = true;
@@ -247,7 +264,7 @@ public class MenuService {
 	    int eleccion = -1;
 
 	    do {
-	        System.out.println("\n=== 🎨 MENÚ ARTISTA 🎨 ===");
+	        System.out.println("\n=== 🎨 MENÚ " +sesion.getPerfil() +" 🎨 ===");
 	        System.out.println("Bienvenido/a, " + sesion.getNombre());
 	        System.out.println("Selecciona una opción:");
 	        System.out.println("1. Ver espectáculos disponibles");
@@ -289,6 +306,12 @@ public class MenuService {
 	    return true;
 	}
 
+	/**
+	 * Metodo que iniciar el programa con el menu correspondiente al perfil
+	 * que se pase como atributo.
+	 * @param perfil
+	 * @return
+	 */
 	public boolean iniciarPrograma(Sesion perfil) {
 		switch (perfil.getPerfil()) {
 		case INVITADO:
@@ -304,6 +327,10 @@ public class MenuService {
 			return true;
 		}
 	}
+	/**
+	 * Nos muestra el perfil de la sesion que tenemos actualmente activa
+	 * @return
+	 */
 	public boolean SesionActiva() {
 		System.out.println("Sesión activa: " + sesion.getPerfil());
 	    if (this.sesion == null || this.sesion.getPerfil() == null) {

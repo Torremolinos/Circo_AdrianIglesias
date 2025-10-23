@@ -27,10 +27,18 @@ public class PaisService {
 	private static final String rutaXml = new Config()
 					.getProperty("paisesruta");
 
+	/**
+	 * Al instanciar nuestro service ya creamos los paises
+	 * Usando el metodo correspondiente.
+	 */
 	public PaisService() {
 		this.mapaPaises = leerPaises();
 	}
 
+	/**
+	 * Metodo para leer paises del archivo.xml
+	 * @return
+	 */
 	private Map<String, String> leerPaises() {
 		Map<String, String> mapa = new HashMap<>();
 
@@ -62,10 +70,12 @@ public class PaisService {
 		return mapa;
 	}
 
-	public String obtenerNombrePorCodigo(String codigo) {
-		return mapaPaises.get(codigo);
-	}
-
+	/**
+	 * Devuelve un mapa con todos los países cargados desde el XML.
+	 * El mapa contiene como clave el código del país
+	 * El mapa devuelto es de solo lectura: no se puede modificar 
+	 * @return un {@code Map<String, String>} inmodificable con los códigos y nombres de países
+	 */
 	public Map<String, String> obtenerTodosLosPaises() {
 		return Collections.unmodifiableMap(mapaPaises);
 	}

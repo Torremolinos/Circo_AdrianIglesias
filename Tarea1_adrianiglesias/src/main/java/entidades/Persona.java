@@ -15,7 +15,7 @@ public class Persona implements Comparable<Persona>, Serializable {
 	protected String email;
 	protected String nombre;
 	protected String nacionalidad;
-
+	
 	public Persona() {
 		super();
 	}

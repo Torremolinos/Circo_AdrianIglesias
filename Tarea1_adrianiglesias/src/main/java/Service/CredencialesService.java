@@ -27,30 +27,15 @@ public class CredencialesService {
 
 	static Config config = new Config();
 	public static String ruta = config.getProperty("credenciales");
-	/* Para un service, o clases Dao. */
 
-	public void leerCredenciales() {
-
-		try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
-			String linea;
-
-			while ((linea = br.readLine()) != null) {
-				String[] partes = linea.split("\\|");
-				String id = partes[0];
-				String usuario = partes[1];
-				String password = partes[2];
-				String email = partes[3];
-				String nombre = partes[4];
-				String pais = partes[5];
-				String rol = partes[6];
-
-				System.out.println("Usuario: " + usuario + " (" + email + ")");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	/**
+	 * Buscador de credenciales, lee el fichero txt y busca las partes que
+	 * necesito imprimir creandome una instancia de Credenciales con los datos 
+	 * que necesito para contrastar o guardar.
+	 * @param usuarioBuscado
+	 * @param passwordBuscada
+	 * @return
+	 */
 	public static Credenciales buscarPorUsuarioYPassword(String usuarioBuscado,
 			String passwordBuscada) {
 
@@ -95,6 +80,14 @@ public class CredencialesService {
 
 		return null;
 	}
+	
+	/**
+	 * Buscamos en credenciales.txt la parte dle id, recorremos todo el fichero 
+	 * pisando una y otra vez la variabla ultimoId, hasta que lleguemos a la ultima
+	 * guardando el ultimo valor.
+	 * @param ruta
+	 * @return
+	 */
 
 	private static long obtenerUltimoId(String ruta) {
 		long ultimoId = 0;
@@ -119,6 +112,12 @@ public class CredencialesService {
 		}
 		return ultimoId;
 	}
+	
+	/**
+	 * Creo un objeto de la clase Credencial, comprobando antes que todos los valores
+	 * sean correctos.
+	 * @return
+	 */
 
 	public static Credenciales crearNuevaCredencial() {
 		Scanner sc = new Scanner(System.in);
@@ -147,7 +146,7 @@ public class CredencialesService {
 						"❌ El nombre de usuario ya existe en el sistema.");
 				continue;
 			}
-
+			
 			break;
 		} while (true);
 
@@ -220,6 +219,7 @@ public class CredencialesService {
 		if (existeUsuarioOEmail(usuario, email)) {
 			System.out.println(
 					"❌ Ya existe un usuario o email igual en el sistema.");
+			
 			return null;
 		}
 
@@ -228,6 +228,7 @@ public class CredencialesService {
 		if (paises == null || paises.isEmpty()) {
 			System.out.println(
 					"❌ No se pudieron cargar los países desde el XML.");
+			
 			return null;
 		}
 
@@ -329,6 +330,7 @@ public class CredencialesService {
 			}
 
 		} while (opcionPerfil < 1 || opcionPerfil > 2);
+	
 
 		Credenciales nueva = new Credenciales(null, usuario, password, perfil);
 
@@ -337,6 +339,15 @@ public class CredencialesService {
 		return nueva;
 	}
 
+	/**
+	 * En este metodo registramos al usuario, pasandole las credenciales,el email,
+	 * nombrecompleto y pais, y lo guardamos en el txt correspondiente. 
+	 * Esto se cambiara a futuro al DAO.
+	 * @param nuevo
+	 * @param email
+	 * @param nombreCompleto
+	 * @param pais
+	 */
 	private static void registrarUsuario(Credenciales nuevo, String email,
 			String nombreCompleto, String pais) {
 		long nuevoId = obtenerUltimoId(ruta) + 1;
@@ -359,7 +370,12 @@ public class CredencialesService {
 		}
 	}
 
-	
+	/**
+	 * Compara el usuario y el email para comprobar que no haya guardado otro igual.
+	 * @param usuario
+	 * @param email
+	 * @return
+	 */
 	private static boolean existeUsuarioOEmail(String usuario, String email) {
 		try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
 			String linea;

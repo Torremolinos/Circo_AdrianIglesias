@@ -25,7 +25,12 @@ public class Config {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Nos trae el valor de la propiedad del atributo pasado.
+	 * @param key
+	 * @return
+	 */
 	public String getProperty(String key) {
 		return properties.getProperty(key);
 	}

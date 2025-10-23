@@ -39,18 +39,13 @@ public class Credenciales {
 		this.idPersona = idPersona;
 	}
 
-
-
 	public Long getIdPersona() {
 		return idPersona;
 	}
 
-
-
 	public void setIdPersona(Long idPersona) {
 		this.idPersona = idPersona;
 	}
-
 
 	public Long getId() {
 		return id;

@@ -49,32 +49,9 @@ public class Utilidades {
 	            System.out.println("Valor introducido incorrecto. Introduzca S o N.");
 	        }
 	    } while (true);
+	 
 	}
 
-	/**
-	 * Función que pide al usuario que introduzca un valor decimal por la
-	 * entrada estándar. Si el formato introducido no es correcto, avisa al
-	 * usuario y le vuelve a pedir que lo introduzca de nuevo.
-	 *
-	 * @return el valor double introducido por el usuario
-	 */
-	public static double leerDouble() {
-		double ret = 0.0;
-		boolean correcto = false;
-		Scanner in;
-		do {
-			System.out.println("Introduzca un valor decimal (xx.xx)");
-			in = new Scanner(System.in, "ISO-8859-1");
-			try {
-				ret = in.nextDouble();
-				correcto = true;
-			} catch (InputMismatchException ime) {
-				System.out.println("Formato introducido incorrecto.");
-				correcto = false;
-			}
-		} while (!correcto);
-		return ret;
-	}
 
 	/**
 	 * Función que pide al usuario que introduce un valor para una fecha a

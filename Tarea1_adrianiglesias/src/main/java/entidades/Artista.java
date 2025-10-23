@@ -12,18 +12,16 @@ import java.util.List;
 import java.util.Set;
 
 public class Artista extends Persona {
-
+	/*debo meter static final long serialVersionUID = 1L;???*/
 	private Long idArt;
 	private String apodo;
 	private Set<Especialidad> especialidades = new HashSet<Especialidad>();
 	private List<Numero> numeros;
-	/*hay que tener en cuenta que hay que transformar un conjunto en una 	lista no habra elementos repetidos
-  *mejor trabajar con conjuntos*/
+	/*hay que tener en cuenta que hay que transformar un conjunto en una 	lista no habra elementos 	repetidos
+	 *mejor trabajar con conjuntos*/
 	public Artista() {
 		super();
 	}
-
-	
 
 	public Artista(Long idArt, String apodo, Set<Especialidad> especialidades, List<Numero> numeros) {
 		super();
@@ -32,17 +30,14 @@ public class Artista extends Persona {
 		this.especialidades = especialidades;
 		this.numeros = numeros;
 	}
-
 	
 	public Set<Especialidad> getEspecialidades() {
 		return especialidades;
 	}
 
-
 	public void setEspecialidades(Set<Especialidad> especialidades) {
 		this.especialidades = especialidades;
 	}
-
 
 	public Long getIdArt() {
 		return idArt;
